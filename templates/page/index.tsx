@@ -1,5 +1,5 @@
-const Component: React.FC = () => {
+const PageName: React.FC = () => {
   return <div></div>;
 };
 
-export default Component;
+export default PageName;

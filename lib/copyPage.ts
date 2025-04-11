@@ -8,7 +8,7 @@ interface ScaffoldOptions {
   textExtensions?: string[];
 }
 
-const DEFAULT_TEXT_EXTS = ['.js', '.ts', '.tsx', '.less', '.json', '.html', '.css', '.scss'];
+const DEFAULT_TEXT_EXTS = ['.js', '.ts', '.tsx', '.json', '.html', '.css', '.scss', '.less'];
 
 export async function scaffold(options: ScaffoldOptions): Promise<void> {
   const { templateDir, outputDir, pageName } = options;

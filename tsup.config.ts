@@ -30,9 +30,10 @@ export default defineConfig({
           rename: (name) => name.replace('templates/', ''),
         },
       ],
-      copyOnce: true,
+      // copyOnce: true,
       hook: 'buildEnd',
       verbose: true,
+      // 同名文件夹或文件直接覆盖
     }) as any,
   ],
   // 目录结构保留

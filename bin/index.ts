@@ -31,3 +31,4 @@ program
   });
 
 program.parse(process.argv);
+console.log('花卷');
