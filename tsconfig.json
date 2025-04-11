@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist/types",
+    "rootDir": ".", // 根目录设置为项目根目录
+    "baseUrl": ".",
+    "paths": {
+      "@lib/*": ["lib/*"], // 可选：添加路径别名
+      "@temps/*": ["templates/*"] // 可选：添加路径别名
+    },
+    "types": ["./types.d.ts"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "emitDeclarationOnly": true, // 只生成声明文件
+    "sourceMap": true
+  },
+  "include": ["bin/**/*", "lib/**/*"], // 包含 bin 和 lib 目录
+  "exclude": ["node_modules"]
+}
