@@ -1,2 +1,2 @@
 export { sayHello } from './helloWorld';
-export { copyPage } from './copyPage';
+export { scaffold } from './copyPage';

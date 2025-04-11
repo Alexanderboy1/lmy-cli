@@ -1,91 +1,68 @@
-import fs from 'fs-extra';
 import path from 'path';
-/**
- * 递归替换目录/文件名及文件内容中的 PageName
- * @param srcPath 源目录路径
- * @param name 要替换的名称
- */
-export async function replacePageName(srcPath: string, name: string) {
-  // 先处理子项，再处理当前目录名称
-  const entries = await fs.readdir(srcPath);
+import fse from 'fs-extra';
 
-  // 并行处理所有子项
-  await Promise.all(
-    entries.map(async (entry) => {
-      const entryPath = path.join(srcPath, entry);
-      const stats = await fs.stat(entryPath);
-
-      if (stats.isDirectory()) {
-        // 递归处理子目录内容
-        await replacePageName(entryPath, name);
-      } else {
-        // 处理文件
-        await processFile(entryPath, name);
-      }
-    }),
-  );
-
-  // 处理当前目录名称
-  await renameDir(srcPath, name);
+interface ScaffoldOptions {
+  templateDir: string;
+  outputDir: string;
+  pageName: string;
+  textExtensions?: string[];
 }
 
-/**
- * 处理单个文件
- */
-async function processFile(filePath: string, name: string) {
-  // 替换文件名
-  const newFilePath = await renameFile(filePath, name);
+const DEFAULT_TEXT_EXTS = ['.js', '.ts', '.tsx', '.less', '.json', '.html', '.css', '.scss'];
 
-  // 仅处理文本文件（根据扩展名过滤）
-  const textExtensions = new Set([
-    '.js',
-    '.ts',
-    '.tsx',
-    '.less',
-    '.jsx',
-    '.json',
-    '.html',
-    '.css',
-    '.md',
-  ]);
-  const ext = path.extname(newFilePath);
+export async function scaffold(options: ScaffoldOptions): Promise<void> {
+  const { templateDir, outputDir, pageName } = options;
+  const textExts = new Set(options.textExtensions || DEFAULT_TEXT_EXTS);
 
-  if (textExtensions.has(ext)) {
-    // 读取并替换内容
-    const content = await fs.readFile(newFilePath, 'utf8');
-    const newContent = content.replace(/PageName/g, name);
+  // 清空并创建目标目录
+  await fse.remove(outputDir);
+  await fse.ensureDir(outputDir);
 
-    // 写入新内容
-    await fs.writeFile(newFilePath, newContent);
+  // 开始处理根目录
+  await processDirectory(templateDir, outputDir, pageName, textExts);
+  console.log('✅ 脚手架生成成功');
+}
+
+async function processDirectory(
+  srcDir: string,
+  destDir: string,
+  pageName: string,
+  textExts: Set<string>,
+): Promise<void> {
+  // 读取源目录下所有条目
+  const entries = await fse.readdir(srcDir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const srcPath = path.join(srcDir, entry.name);
+    const processedName = entry.name.replace(/PageName/g, pageName);
+    const destPath = path.join(destDir, processedName);
+
+    if (entry.isDirectory()) {
+      // 处理目录：创建目录后递归处理
+      await fse.ensureDir(destPath);
+      await processDirectory(srcPath, destPath, pageName, textExts);
+    } else if (entry.isFile()) {
+      // 处理文件
+      await processFile(srcPath, destPath, pageName, textExts);
+    }
   }
 }
 
-/**
- * 重命名文件
- */
-async function renameFile(filePath: string, name: string) {
-  const dir = path.dirname(filePath);
-  const oldName = path.basename(filePath);
-  const newName = oldName.replace(/PageName/g, name);
+async function processFile(
+  srcFile: string,
+  destFile: string,
+  pageName: string,
+  textExts: Set<string>,
+): Promise<void> {
+  const ext = path.extname(srcFile).toLowerCase();
 
-  if (oldName !== newName) {
-    const newPath = path.join(dir, newName);
-    await fs.move(filePath, newPath);
-    return newPath;
-  }
-  return filePath;
-}
-
-/**
- * 重命名目录
- */
-async function renameDir(dirPath: string, name: string) {
-  const parentDir = path.dirname(dirPath);
-  const oldName = path.basename(dirPath);
-  const newName = oldName.replace(/PageName/g, name);
-
-  if (oldName !== newName) {
-    const newPath = path.join(parentDir, newName);
-    await fs.move(dirPath, newPath);
+  if (textExts.has(ext)) {
+    // 处理文本文件：替换内容后写入
+    const content = await fse.readFile(srcFile, 'utf8');
+    const newContent = content.replace(/PageName/g, pageName);
+    await fse.writeFile(destFile, newContent);
+  } else {
+    // 处理二进制文件：直接复制
+    await fse.copy(srcFile, destFile);
   }
 }
