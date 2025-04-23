@@ -24,6 +24,7 @@
   "devDependencies": {
     "@ant-design/pro-components": "^2.8.7",
     "@types/fs-extra": "^11.0.4",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^22.14.0",
     "@types/react": "^19.1.2",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
@@ -44,6 +45,8 @@
   },
   "dependencies": {
     "commander": "^13.1.0",
-    "fs-extra": "^11.3.0"
+    "fs-extra": "^11.3.0",
+    "inquirer": "^12.5.2",
+    "lodash": "^4.17.21"
   }
 }

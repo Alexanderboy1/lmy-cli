@@ -10,6 +10,7 @@ interface ScaffoldOptions {
 
 const DEFAULT_TEXT_EXTS = ['.js', '.ts', '.tsx', '.json', '.html', '.css', '.scss', '.less'];
 
+// 复制模版
 export async function scaffold(options: ScaffoldOptions): Promise<void> {
   const { templateDir, outputDir, targetName } = options;
   const textExts = new Set(options.textExtensions || DEFAULT_TEXT_EXTS);
@@ -20,7 +21,6 @@ export async function scaffold(options: ScaffoldOptions): Promise<void> {
 
   // 开始处理根目录
   await processDirectory(templateDir, outputDir, targetName, textExts);
-  console.log('✅ 脚手架生成成功');
 }
 
 async function processDirectory(
