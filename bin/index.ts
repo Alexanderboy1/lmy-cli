@@ -18,15 +18,10 @@ program
   .action(async (type, name, options) => {
     const { dir } = options;
     // 在用户当前目录的src/pages目录下创建一个文件夹
-    // fs.ensureDirSync(path.resolve(__dirname, dir ? `./src/${dir}` : `./src/pages/${name}`));
-    console.log(path.resolve(process.cwd(), `./src/pages/${name}`));
-    // path.resolve(__dirname, '../templates/page'),
-    //   path.resolve(process.cwd(), `./src/pages/${name}`),
-    //   name,
     await scaffold({
       templateDir: path.resolve(__dirname, '../templates/page'),
       outputDir: path.resolve(process.cwd(), `./src/pages/${name}`),
-      pageName: name,
+      targetName: name,
     });
   });
 

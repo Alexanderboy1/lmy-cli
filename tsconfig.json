@@ -17,7 +17,10 @@
     "declaration": true,
     "declarationDir": "dist/types",
     "emitDeclarationOnly": true, // 只生成声明文件
-    "sourceMap": true
+    "sourceMap": true,
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": false
   },
   "include": ["bin/**/*", "lib/**/*"], // 包含 bin 和 lib 目录
   "exclude": ["node_modules"]

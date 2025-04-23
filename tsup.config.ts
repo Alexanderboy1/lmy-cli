@@ -34,6 +34,7 @@ export default defineConfig({
       hook: 'buildEnd',
       verbose: true,
       // 同名文件夹或文件直接覆盖
+      overwrite: true,
     }) as any,
   ],
   // 目录结构保留
