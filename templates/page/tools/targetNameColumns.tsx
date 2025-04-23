@@ -32,3 +32,5 @@ const targetNameColumns = ({ onEdit, onDelete }: TargetNameColumnsConfig) => {
   ];
   return columns;
 };
+
+export default targetNameColumns;

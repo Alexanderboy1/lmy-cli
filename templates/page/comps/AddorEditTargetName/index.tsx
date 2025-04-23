@@ -2,11 +2,11 @@ import React from 'react';
 import { DrawerForm } from '@ant-design/pro-components';
 import { forwardRef, useImperativeHandle, useState } from 'react';
 
-type CreateOrEditTargetNameRef = {
+export type CreateOrEditTargetNameRef = {
   show: () => void;
 };
 
-type CreateOrEditTargetNameProps = {
+export type CreateOrEditTargetNameProps = {
   onSuccess?: () => void;
 };
 

@@ -9,7 +9,7 @@ const mockApi: (params: any) => Promise<any> = async (params: any) => {
   });
 };
 
-export const createTargetName = async (params: any, callback?: () => VideoDecoder) => {
+export const createTargetName = async (params: any, callback?: () => void) => {
   try {
     await mockApi(params);
     callback?.();
@@ -17,7 +17,7 @@ export const createTargetName = async (params: any, callback?: () => VideoDecode
 };
 
 // 删除
-export const removeTargetName = async (ids: any[], callback?: () => VideoDecoder) => {
+export const removeTargetName = async (ids: any[], callback?: () => void) => {
   try {
     await mockApi(ids);
     callback?.();
@@ -25,9 +25,13 @@ export const removeTargetName = async (ids: any[], callback?: () => VideoDecoder
 };
 
 // 查询
-export const queryTargetName = async (params: any) => {
+export const queryTargetNameList = async (params: any) => {
+  const { pageSize, ...rest } = params;
   try {
-    const { data } = await mockApi(params);
+    const { data } = await mockApi({
+      ...rest,
+      size: pageSize,
+    });
     const { records, total } = data || {};
     return {
       records,
@@ -42,7 +46,7 @@ export const queryTargetName = async (params: any) => {
 };
 
 // 更新
-export const updateTargetName = async (params: any, callback?: () => VideoDecoder) => {
+export const updateTargetName = async (params: any, callback?: () => void) => {
   try {
     await mockApi(params);
     callback?.();
