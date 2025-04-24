@@ -10,7 +10,7 @@
       "@lib/*": ["lib/*"], // 可选：添加路径别名
       "@temps/*": ["templates/*"] // 可选：添加路径别名
     },
-    "types": ["./types.d.ts"],
+    "typeRoots": ["./node_modules/@types"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

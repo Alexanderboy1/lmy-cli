@@ -1,1 +1,1 @@
-export { scaffold } from './copyPage';
+export { scaffold } from './copyTemplate';
