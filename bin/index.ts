@@ -4,6 +4,7 @@ import path from 'node:path';
 import { scaffold } from '@lib/index';
 import { E_TemplateType } from './constants';
 import { isString } from 'lodash';
+import inquirer from 'inquirer';
 // 读本地package.json
 const packageJson = fs.readJsonSync('./package.json');
 const { version } = packageJson;
@@ -42,11 +43,58 @@ program
       outputDir = path.resolve(process.cwd(), `${tempDir}/${name}`);
     }
 
-    await scaffold({
-      templateDir,
-      outputDir,
-      targetName: name,
-    });
+    // 查看目标文件夹是不是已经存在了
+    if (fs.existsSync(outputDir)) {
+      const resoveTypeAnswer = await inquirer.prompt({
+        type: 'list',
+        name: 'resoveType',
+        message: '当前文件夹已经存在，请选择你需要的操作：',
+        choices: [
+          {
+            name: '重新输入名称',
+            value: 'rename',
+          },
+          {
+            name: '覆盖目标文件夹',
+            value: 'overwrite',
+          },
+          {
+            name: '取消',
+            value: 'cancel',
+          },
+        ],
+      });
+      if (resoveTypeAnswer.resoveType === 'cancel') {
+        return;
+      }
+      if (resoveTypeAnswer.resoveType === 'overwrite') {
+        await scaffold({
+          templateDir,
+          outputDir,
+          targetName: name,
+        });
+      }
+      if (resoveTypeAnswer.resoveType === 'rename') {
+        const { newName } = await inquirer.prompt({
+          type: 'input',
+          name: 'newName',
+          message: '请输入新的名称：',
+        });
+        console.log('新名称', newName, `${tempDir}/${newName}`);
+
+        await scaffold({
+          templateDir,
+          outputDir: path.resolve(process.cwd(), `${tempDir}/${newName}`),
+          targetName: newName,
+        });
+      }
+    } else {
+      await scaffold({
+        templateDir,
+        outputDir,
+        targetName: name,
+      });
+    }
   });
 
 program.parse(process.argv);
