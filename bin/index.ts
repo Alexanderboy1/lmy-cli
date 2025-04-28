@@ -5,6 +5,8 @@ import { scaffold } from '@lib/index';
 import { E_TemplateType } from './constants';
 import { isString } from 'lodash';
 import inquirer from 'inquirer';
+import renameTargetDir from '@lib/renameTargetDir';
+import createOutputDirName from '@lib/createOutputDirName';
 // 读本地package.json
 const packageJson = fs.readJsonSync('./package.json');
 const { version } = packageJson;
@@ -28,7 +30,7 @@ program
     const { dir } = options;
     const templateDir = path.resolve(__dirname, `../templates/${type}`);
     const baseUrl = type === E_TemplateType.PAGE ? 'pages' : 'components';
-    let outputDir = path.resolve(process.cwd(), `./src/${baseUrl}/${name}`);
+    let outputDir = createOutputDirName(name, baseUrl);
     let tempDir = dir;
     if (isString(dir)) {
       // 看看dir末尾是不是/
@@ -40,7 +42,7 @@ program
         throw new Error('The specified directory already exists');
       }
       // 用户指定了文件夹
-      outputDir = path.resolve(process.cwd(), `${tempDir}/${name}`);
+      outputDir = createOutputDirName(name, tempDir);
     }
 
     // 查看目标文件夹是不是已经存在了
@@ -53,6 +55,10 @@ program
           {
             name: '重新输入名称',
             value: 'rename',
+          },
+          {
+            name: '重新输入文件夹路径',
+            value: 'reinputDir',
           },
           {
             name: '覆盖目标文件夹',
@@ -80,12 +86,31 @@ program
           name: 'newName',
           message: '请输入新的名称：',
         });
-        console.log('新名称', newName, `${tempDir}/${newName}`);
 
         await scaffold({
           templateDir,
-          outputDir: path.resolve(process.cwd(), `${tempDir}/${newName}`),
+          outputDir: renameTargetDir({
+            baseUrl: outputDir,
+            targetDirName: newName,
+            userDirUrl: tempDir,
+          }),
           targetName: newName,
+        });
+      }
+      if (resoveTypeAnswer.resoveType === 'reinputDir') {
+        const { newDir } = await inquirer.prompt({
+          type: 'input',
+          name: 'newDir',
+          message: '请输入新的文件夹路径：',
+        });
+        await scaffold({
+          templateDir,
+          outputDir: renameTargetDir({
+            baseUrl: outputDir,
+            targetDirName: name,
+            userDirUrl: newDir,
+          }),
+          targetName: name,
         });
       }
     } else {

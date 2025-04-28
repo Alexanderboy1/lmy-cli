@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsup';
 import copy from 'rollup-plugin-copy';
-import { rename } from 'fs';
+import path from 'path';
 export default defineConfig({
   // 主入口配置
   entry: {
@@ -15,7 +15,7 @@ export default defineConfig({
   clean: true,
   minify: process.env.NODE_ENV === 'production',
   target: 'node16', // 明确 Node.js 目标版本
-  publicDir: 'templates', // 公共资源目录
+  // publicDir: 'templates', // 公共资源目录
   loader: {
     '.tsx': 'copy',
     '.less': 'copy',
