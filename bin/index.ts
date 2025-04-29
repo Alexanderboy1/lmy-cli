@@ -5,8 +5,7 @@ import { scaffold } from '@lib/index';
 import { E_TemplateType } from './constants';
 import { isString } from 'lodash';
 import inquirer from 'inquirer';
-import renameTargetDir from '@lib/renameTargetDir';
-import createOutputDirName from '@lib/createOutputDirName';
+import { createOutputDirName, renameTargetDir } from '@lib/utils';
 // 读本地package.json
 const packageJson = fs.readJsonSync('./package.json');
 const { version } = packageJson;
@@ -37,10 +36,6 @@ program
       if (dir.endsWith('/')) {
         tempDir = tempDir.slice(0, -1);
       }
-      // 看看是不是一个文件
-      if (fs.existsSync(path.resolve(process.cwd(), `${tempDir}/${name}`))) {
-        throw new Error('The specified directory already exists');
-      }
       // 用户指定了文件夹
       outputDir = createOutputDirName(name, tempDir);
     }
@@ -50,7 +45,7 @@ program
       const resoveTypeAnswer = await inquirer.prompt({
         type: 'list',
         name: 'resoveType',
-        message: '当前文件夹已经存在，请选择你需要的操作：',
+        message: '已存在目标文件/文件夹已经存在，请选择你需要的操作：',
         choices: [
           {
             name: '重新输入名称',
