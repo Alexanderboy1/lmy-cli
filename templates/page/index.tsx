@@ -4,9 +4,10 @@ import { useAsync } from '@zykj2024/much-hooks';
 import { AddOutlined } from '@zykj2024/much-icons';
 import targetNameQueryItems from './tools/targetNameQueryItems';
 import { Button } from 'antd';
-import CreateOrEditTargetName, { CreateOrEditTargetNameRef } from './comps/AddorEditTargetName';
+
 import { queryTargetNameList, removeTargetName } from './tools/targetNameServers';
 import targetNameColumns from './tools/targetNameColumns';
+import CreateOrEditTargetName, { CreateOrEditTargetNameRef } from './comps/CreateOrEditTargetName';
 const TargetName: FC = () => {
   const mcContainerRef = useRef<McContainerRef>(undefined);
   const createOrEditTargetNameRef = useRef<CreateOrEditTargetNameRef>(null);

@@ -24,11 +24,12 @@ program
   )
   .argument('<name>', 'Name of project to create')
   .option('-d, --dir [dir]', 'Directory to create project in')
+  .option('-p, --popUpName [popUpName]', 'PopUp Name of project to create')
   .description('Create a new page or component ')
   .action(async (type: E_TemplateType, name: string, options: Record<string, any>) => {
-    const { dir } = options;
+    const { dir, popUpName } = options;
     const templateDir = path.resolve(__dirname, `../templates/${type}`);
-    const baseUrl = type === E_TemplateType.PAGE ? 'pages' : 'components';
+    const baseUrl = type === E_TemplateType.PAGE ? './src/pages' : './src/components';
     let outputDir = createOutputDirName(name, baseUrl);
     let tempDir = dir;
     if (isString(dir)) {
@@ -73,6 +74,7 @@ program
           templateDir,
           outputDir,
           targetName: name,
+          popUpName,
         });
       }
       if (resoveTypeAnswer.resoveType === 'rename') {
@@ -90,6 +92,7 @@ program
             userDirUrl: tempDir,
           }),
           targetName: newName,
+          popUpName,
         });
       }
       if (resoveTypeAnswer.resoveType === 'reinputDir') {
@@ -106,6 +109,7 @@ program
             userDirUrl: newDir,
           }),
           targetName: name,
+          popUpName,
         });
       }
     } else {
@@ -113,6 +117,7 @@ program
         templateDir,
         outputDir,
         targetName: name,
+        popUpName,
       });
     }
   });
