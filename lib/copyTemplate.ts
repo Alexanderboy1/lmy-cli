@@ -97,11 +97,12 @@ async function processFile(
     const content = await fse.readFile(srcFile, 'utf8');
     let newContent = '';
     if (isPartial) {
+      const tempPopUpName = popUpname ?? targetName;
       newContent = content
-        .replace(/CreateOrEditTargetName/g, `CreateOrEdit${popUpname}`)
+        .replace(/CreateOrEditTargetName/g, `CreateOrEdit${tempPopUpName}`)
         .replace(
           /createOrEditTargetName/g,
-          `createOrEdit${popUpname!.charAt(0).toLowerCase() + popUpname!.slice(1)}`,
+          `createOrEdit${tempPopUpName!.charAt(0).toLowerCase() + tempPopUpName!.slice(1)}`,
         )
         .replace(/TargetName/g, targetName)
         .replace(/targetName/g, targetName.charAt(0).toLowerCase() + targetName.slice(1));
