@@ -8,13 +8,6 @@ export enum E_TemplateType {
   // 表单组件
   DRAWER_FORM = 'df',
   MODAL_FORM = 'mf',
-}
-
-// 组件类型
-export enum E_ComponentType {
-  // 普通组件
-  NORMAL = 'normal',
-  // 表单组件
-  DRAWER_FORM = 'drawerForm',
-  MODAL_FORM = 'modalForm',
+  // 抽屉页面
+  DRAWER_PAGE = 'dp',
 }

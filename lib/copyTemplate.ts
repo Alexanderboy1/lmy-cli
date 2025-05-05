@@ -77,7 +77,7 @@ async function processDirectory({
       const parentDir = srcPath.split('/')[srcPath.split('/').length - 2];
       const isTsx = srcPath.endsWith('.tsx');
       // 是不是首页文件
-      const isPageIndex = parentDir === 'page' && isTsx;
+      const isPageIndex = ['page', 'dp'].includes(parentDir) && isTsx;
       await processFile(srcPath, destPath, tempName, textExts, isPageIndex, popUpName);
     }
   }
