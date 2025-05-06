@@ -1,5 +1,6 @@
 import path from 'path';
 import fse from 'fs-extra';
+import { E_TemplateType } from 'bin/constants';
 
 interface ScaffoldOptions {
   templateDir: string;
@@ -77,7 +78,9 @@ async function processDirectory({
       const parentDir = srcPath.split('/')[srcPath.split('/').length - 2];
       const isTsx = srcPath.endsWith('.tsx');
       // 是不是首页文件
-      const isPageIndex = ['page', 'dp'].includes(parentDir) && isTsx;
+      const isPageIndex =
+        [E_TemplateType.PAGE, E_TemplateType.DRAWER_PAGE].includes(parentDir as E_TemplateType) &&
+        isTsx;
       await processFile(srcPath, destPath, tempName, textExts, isPageIndex, popUpName);
     }
   }
