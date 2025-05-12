@@ -10,4 +10,6 @@ export enum E_TemplateType {
   MODAL_FORM = 'mf',
   // 抽屉页面
   DRAWER_PAGE = 'dp',
+  // 页面tabs
+  PAGE_TABS = 'pt',
 }

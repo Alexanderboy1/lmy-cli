@@ -21,6 +21,7 @@ program
       E_TemplateType.CONTROL_COMPONENT,
       E_TemplateType.MODAL_FORM,
       E_TemplateType.DRAWER_PAGE,
+      E_TemplateType.PAGE_TABS,
     ]),
   )
   .argument('<name>', 'Name of project to create')
