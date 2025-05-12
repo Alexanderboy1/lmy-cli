@@ -9,8 +9,7 @@
   },
   "description": "一个快速创建react页面的脚手架工具",
   "files": [
-    "dist",
-    "templates"
+    "dist"
   ],
   "engines": {
     "node": ">=16.0.0"
