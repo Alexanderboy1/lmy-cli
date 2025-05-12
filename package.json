@@ -7,6 +7,7 @@
   "bin": {
     "lmy": "./dist/bin/index.cjs"
   },
+  "description": "一个快速创建react页面的脚手架工具",
   "files": [
     "dist",
     "templates"
@@ -17,6 +18,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "release": "npm version patch && npm publish --access public",
     "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run build",
     "clean": "rm -rf node_modules/.cache/tsup"
