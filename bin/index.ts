@@ -6,6 +6,7 @@ import { E_TemplateType } from './constants';
 import { isString } from 'lodash';
 import inquirer from 'inquirer';
 import { createOutputDirName, renameTargetDir } from '@lib/utils';
+import { insertCode } from '@lib/codeInsertionRef';
 // 读本地package.json
 const packageJson = fs.readJsonSync('./package.json');
 const { version } = packageJson;
@@ -27,9 +28,11 @@ program
   .argument('<name>', 'Name of project to create')
   .option('-d, --dir [dir]', 'Directory to create project in')
   .option('-p, --popUpName [popUpName]', 'PopUp Name of project to create')
+  .option('-t , --targetName [targetName]', 'Target Name of project to create')
+  .option('-f, --fatherPath [fatherPath]', 'Target Path of project to create')
   .description('Create a new page or component ')
   .action(async (type: E_TemplateType, name: string, options: Record<string, any>) => {
-    const { dir, popUpName } = options;
+    const { dir, popUpName, targetName, fatherPath } = options;
     const templateDir = path.resolve(__dirname, `../templates/${type}`);
     const baseUrl = type === E_TemplateType.PAGE ? './src/pages' : './src/components';
     let outputDir = createOutputDirName(name, baseUrl);
@@ -120,6 +123,16 @@ program
         outputDir,
         targetName: name,
         popUpName,
+      });
+    }
+    console.log('outputDir', outputDir);
+
+    if (fatherPath && targetName) {
+      insertCode({
+        targetFilePath: path.resolve(process.cwd(), fatherPath),
+        targetFileName: targetName,
+        insertFilePath: path.resolve(process.cwd(), outputDir),
+        insertFileName: name,
       });
     }
   });

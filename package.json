@@ -24,9 +24,12 @@
   },
   "devDependencies": {
     "@ant-design/pro-components": "^2.8.7",
+    "@types/babel__generator": "^7.27.0",
+    "@types/babel__traverse": "^7.20.7",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.14.0",
+    "@types/prettier": "^3.0.0",
     "@types/react": "^19.1.2",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.29.1",
@@ -38,7 +41,6 @@
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "less": "^4.3.0",
-    "prettier": "^3.5.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "rollup-plugin-copy": "^3.5.0",
@@ -46,9 +48,14 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@babel/generator": "^7.27.1",
+    "@babel/parser": "^7.27.2",
+    "@babel/traverse": "^7.27.1",
+    "@babel/types": "^7.27.1",
     "commander": "^13.1.0",
     "fs-extra": "^11.3.0",
     "inquirer": "^12.5.2",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "prettier": "^3.5.3"
   }
 }
